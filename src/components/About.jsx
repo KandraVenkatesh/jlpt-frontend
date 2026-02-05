@@ -1,4 +1,6 @@
 // src/components/About.jsx
+import { Link } from "react-router-dom";
+
 import React from 'react';
 import './About.css';
 
@@ -65,7 +67,7 @@ export default function About() {
             </div>
 
             <div className="about-cta">
-              <a className="about-cta-button" href="/levels">Start learning — Open levels</a>
+              <Link to="/levels" className="about-cta-button">Start learning — Open levels</Link>
               <span className="about-note">Free, offline seed data; expand with your own vocab later.</span>
             </div>
           </div>
