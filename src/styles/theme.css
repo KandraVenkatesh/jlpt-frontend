@@ -1,0 +1,34 @@
+/* =========================
+   THEME VARIABLES
+   ========================= */
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+}
+
+/* =========================
+   DARK MODE
+   ========================= */
+body.dark {
+  --bg: #0b1220;
+  --surface: #0f172a;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --border: #1e293b;
+  --primary: #3b82f6;
+}
+
+/* =========================
+   GLOBAL BASE
+   ========================= */
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+}

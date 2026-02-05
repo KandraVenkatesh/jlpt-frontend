@@ -1,0 +1,216 @@
+/* =========================
+   PAGE BASE
+========================= */
+body {
+  background: #f6f9fc;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111827;
+}
+
+/* =========================
+   HOME WRAPPER
+========================= */
+.space-y-6 {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  animation: pageFade 0.6s ease-out both;
+} 
+
+/* =========================
+   SEARCH TITLE
+========================= */
+.space-y-6 h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+/* =========================
+   SEARCH INPUT
+========================= */
+.space-y-6 input[type="text"],
+.space-y-6 input {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
+}
+
+.space-y-6 input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+/* =========================
+   FILTER BUTTONS
+========================= */
+.btn-small {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.btn-small:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37,99,235,0.15);
+}
+
+.btn-small:active {
+  transform: scale(0.94);
+}
+
+/* active level button */
+.btn-small[style*="border-color"] {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb !important;
+} 
+
+/* =========================
+   VOCAB LIST
+========================= */
+.space-y-3 {
+  margin-top: 28px;
+}
+
+.space-y-3 li {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  animation: cardEnter 0.4s ease both;
+}
+
+.space-y-3 li:hover {
+  box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
+} 
+
+/* vocab word */
+.space-y-3 .text-lg {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* reading */
+.space-y-3 .text-sm.text-gray-600 {
+  margin-left: 6px;
+}
+
+/* meaning */
+.space-y-3 .text-sm.text-gray-700 {
+  margin-top: 6px;
+}
+
+/* level tag */
+.space-y-3 .text-xs {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Page load fade */
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered card animation */
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+/* Note: the `:contains()` selector is not standard CSS.
+   Use `.loading` on the element you want to animate, e.g.:
+   <div class="space-y-6"><div class="loading">Loading</div></div> */
+.space-y-6 div:contains("Loading") {
+  animation: pulse 1.2s infinite;
+}
+
+/* Functional alternative: add a `.loading` class to the element */
+.space-y-6 .loading {
+  animation: pulse 1.2s infinite;
+}
+
+.about-footer {
+  margin-top: 80px;
+  padding: 40px 16px 24px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.about-container {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-footer h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.about-footer p {
+  color: #374151;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.about-links {
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.about-links a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.about-links a:hover {
+  text-decoration: underline;
+}
+
+.about-links .dot {
+  margin: 0 8px;
+  color: #9ca3af;
+}
+
+.meta {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #6b7280;
+}

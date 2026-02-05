@@ -1,0 +1,344 @@
+/* =========================
+   Page container
+   ========================= */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+/* =========================
+   Hero section
+   ========================= */
+.hero {
+  animation: fadeUp 0.6s ease-out both;
+}
+
+.hero h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1c3477;
+  margin-bottom: 6px;
+}
+
+.hero .lead {
+  color: #455e83;
+  font-size: 15px;
+}
+
+/* =========================
+   Levels grid
+   ========================= */
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* =========================
+   Level card
+   ========================= */
+.level-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  animation: cardFade 0.5s ease both;
+}
+
+.level-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+} 
+
+/* =========================
+   Card header
+   ========================= */
+.level-card-head {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: rgb(169, 118, 118);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 14px;   
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+}
+
+.level-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.level-sub {
+  font-size: 13px;
+  color: #4d638f;
+  margin-top: 2px;
+}
+
+/* =========================
+   Progress bar animation
+   ========================= */
+.level-card div[style*="background: #e5e7eb"] {
+  animation: growBar 0.7s ease-out;
+}
+
+/* =========================
+   Actions list
+   ========================= */
+.level-card-body {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.level-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #0f172a;
+  background: #f8fafc;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.level-action:hover {
+  background: #eef2ff;
+  transform: translateX(4px);
+  box-shadow: inset 0 0 0 1px #c7d2fe;
+}
+
+.level-action strong {
+  font-size: 14px;
+}
+
+.level-action .muted {
+  font-size: 12px;
+  color: #1b56a9;
+}
+
+/* Arrow animation */
+.chev {
+  font-size: 18px;
+  color: #2563eb;
+  transition: transform 0.2s ease;
+}
+
+.level-action:hover .chev {
+  transform: translateX(6px);
+}
+
+/* =========================
+   Icons
+   ========================= */
+.level-action svg {
+  color: #284992;
+}
+
+/* =========================
+   Footer tip
+   ========================= */
+.container > div:last-child {
+  animation: fadeUp 0.8s ease both;
+}
+
+/* =========================
+   Animations
+   ========================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes growBar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* =========================
+   Mobile polish
+   ========================= */
+@media (max-width: 480px) {
+  .level-title {
+    font-size: 15px;
+  }
+
+  .level-action {
+    padding: 10px 12px;
+  }
+}
+/* ===== Page Layout ===== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.hero h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.lead {
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* ===== Grid ===== */
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  grid-auto-flow: column;
+  overflow-x: auto;
+}
+
+/* ===== Card ===== */
+.level-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  transition: 
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 35px rgba(0,0,0,0.06);
+} 
+
+/* ===== Header ===== */
+.level-card-head {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: #fff;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.level-title {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.level-sub {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ===== Actions ===== */
+.level-card-body {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.level-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: 
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.level-action:hover {
+  background: #f1f5ff;
+  transform: translateX(4px);
+} 
+
+.level-action strong {
+  font-weight: 600;
+}
+
+.muted {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ===== Arrow ===== */
+.chev {
+  font-size: 20px;
+  color: #94a3b8;
+  transition: transform 0.2s ease;
+}
+
+.level-action:hover .chev {
+  transform: translateX(4px);
+}
+
+/* ===== Progress Animation ===== */
+.level-card div[style*="width"] {
+  transition: width 0.4s ease;
+}
+
+/* ===== Compact variant (opt-in) ===== */
+.level-card.compact {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.level-card.compact .level-badge {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.level-card.compact .level-title {
+  font-size: 15px;
+}
+
+.level-card.compact .level-action {
+  padding: 8px 10px;
+  gap: 8px;
+}

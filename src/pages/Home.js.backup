@@ -1,0 +1,202 @@
+import React, { useEffect, useState, useRef } from 'react';
+
+export default function Home(){
+  const [vocab, setVocab] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState({word:'', reading:'', meaning_en:'', jlptLevel:'N5'});
+  const [query, setQuery] = useState('');
+  const [level, setLevel] = useState('ALL'); // ALL, N5, N4
+  const [error, setError] = useState(null);
+  const API = 'http://localhost:5000/api';
+
+  // debounce ref
+  const debounceRef = useRef(null);
+
+  // fetch items with current query & level
+  async function fetchVocab({ q = '', lvl = 'ALL' } = {}) {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams();
+      if (q && q.trim() !== '') params.set('q', q.trim());
+      if (lvl && lvl !== 'ALL') params.set('level', lvl);
+      const url = `${API}/vocab` + (params.toString() ? `?${params.toString()}` : '');
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Failed to fetch');
+      const data = await res.json();
+      setVocab(data);
+    } catch (e) {
+      console.error(e);
+      setError('Unable to load vocab — try again.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // initial load
+  useEffect(() => {
+    fetchVocab({ q: '', lvl: 'ALL' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // debounced search effect
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      fetchVocab({ q: query, lvl: level });
+    }, 400);
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, level]);
+
+  async function add(e){
+    e.preventDefault();
+    if (!form.word || !form.meaning_en) return alert('word and meaning required');
+    const res = await fetch(`${API}/vocab`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(form)
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      return alert('Error: ' + (err.error || 'unknown'));
+    }
+    const item = await res.json();
+    // if current filters allow this item, add it to state; else refetch
+    if ((level === 'ALL' || item.jlptLevel === level) && (query === '' || `${item.word} ${item.reading} ${item.meaning_en}`.toLowerCase().includes(query.toLowerCase()))) {
+      setVocab(prev => [item, ...prev]);
+    } else {
+      // item doesn't match current filter — refresh list
+      fetchVocab({ q: query, lvl: level });
+    }
+    setForm({word:'', reading:'', meaning_en:'', jlptLevel:'N5'});
+  }
+
+  // Delete & Edit functions (same as before)
+  async function deleteVocab(id) {
+    if (!confirm('Delete this item?')) return;
+    try {
+      const res = await fetch(`${API}/vocab/${id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const err = await res.json();
+        return alert('Delete failed: ' + (err.error || res.statusText));
+      }
+      setVocab(prev => prev.filter(x => x.id !== id));
+    } catch (e) {
+      console.error(e);
+      alert('Delete failed');
+    }
+  }
+
+  async function editVocab(item) {
+    const newWord = prompt('Edit word:', item.word);
+    if (newWord === null) return; // cancelled
+    const newReading = prompt('Edit reading:', item.reading || '') ?? '';
+    const newMeaning = prompt('Edit meaning:', item.meaning_en || '');
+    if (newMeaning === null) return;
+    const newLevel = prompt('Edit level (N5/N4):', item.jlptLevel || 'N5') ?? 'N5';
+
+    const payload = {
+      word: newWord,
+      reading: newReading,
+      meaning_en: newMeaning,
+      jlptLevel: newLevel
+    };
+
+    try {
+      const res = await fetch(`${API}/vocab/${item.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        return alert('Update failed: ' + (err.error || res.statusText));
+      }
+      const j = await res.json();
+      setVocab(prev => prev.map(v => v.id === item.id ? j.item : v));
+    } catch (e) {
+      console.error(e);
+      alert('Update failed');
+    }
+  }
+
+  function clearFilters() {
+    setQuery('');
+    setLevel('ALL');
+    // fetchVocab will run because of useEffect
+  }
+
+  return (
+    <div className="space-y-6">
+      <section>
+        <h2 className="text-xl font-semibold mb-2">Add sample vocab</h2>
+        <form onSubmit={add} className="space-y-2">
+          <div>
+            <input value={form.word} onChange={e=>setForm({...form, word:e.target.value})} placeholder="Word (e.g., 食べる)" className="p-2 border rounded w-full" />
+          </div>
+          <div>
+            <input value={form.reading} onChange={e=>setForm({...form, reading:e.target.value})} placeholder="Reading (e.g., たべる)" className="p-2 border rounded w-full" />
+          </div>
+          <div>
+            <input value={form.meaning_en} onChange={e=>setForm({...form, meaning_en:e.target.value})} placeholder="Meaning (e.g., to eat)" className="p-2 border rounded w-full" />
+          </div>
+          <div>
+            <select value={form.jlptLevel} onChange={e=>setForm({...form, jlptLevel:e.target.value})} className="p-2 border rounded">
+              <option>N5</option>
+              <option>N4</option>
+            </select>
+          </div>
+          <div>
+            <button className="bg-blue px-4 py-2" type="submit">Add</button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', gap:12, marginBottom:12}}>
+          <h2 className="text-xl font-semibold">N5 sample vocabulary</h2>
+
+          <div style={{display:'flex', gap:8, alignItems:'center'}}>
+            <input
+              placeholder="Search word, reading, meaning..."
+              value={query}
+              onChange={e=>setQuery(e.target.value)}
+              className="p-2 border rounded"
+              style={{minWidth:260}}
+            />
+            <div style={{display:'flex', gap:8}}>
+              <button onClick={()=>setLevel('ALL')} className={`btn-small`} style={{borderColor: level==='ALL' ? 'rgba(37,99,235,0.45)' : undefined}}>All</button>
+              <button onClick={()=>setLevel('N5')} className={`btn-small`} style={{borderColor: level==='N5' ? 'rgba(37,99,235,0.45)' : undefined}}>N5</button>
+              <button onClick={()=>setLevel('N4')} className={`btn-small`} style={{borderColor: level==='N4' ? 'rgba(37,99,235,0.45)' : undefined}}>N4</button>
+            </div>
+            <button onClick={clearFilters} className="btn-small">Clear</button>
+          </div>
+        </div>
+
+        {error && <div className="muted">{error}</div>}
+        {loading && <div>Loading...</div>}
+        {!loading && vocab.length === 0 && <div>No vocab found.</div>}
+        <ul className="space-y-3">
+          {vocab.map(v => (
+            <li key={v.id} className="p-3 border rounded">
+              <div style={{display:'flex', justifyContent:'space-between', gap:12}}>
+                <div>
+                  <div className="text-lg font-medium">{v.word} <span className="text-sm text-gray-600">({v.reading})</span></div>
+                  <div className="text-sm text-gray-700">{v.meaning_en}</div>
+                  <div className="text-xs text-gray-500">Level: {v.jlptLevel}</div>
+                </div>
+                <div className="list-actions">
+                  <button onClick={()=>editVocab(v)} className="btn-small bg-yellow">Edit</button>
+                  <button onClick={()=>deleteVocab(v.id)} className="btn-small bg-red">Delete</button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}
