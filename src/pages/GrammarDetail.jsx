@@ -1,7 +1,9 @@
 // src/pages/GrammarDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-const API = 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_URL;
+
+
 
 export default function GrammarDetail(){
   const { id } = useParams();

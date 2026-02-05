@@ -7,7 +7,8 @@ export default function Home(){
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState('ALL'); // ALL, N5, N4
   const [error, setError] = useState(null);
-  const API = 'http://localhost:5000/api';
+  const API = import.meta.env.VITE_API_URL;
+
 
   // debounce ref
   const debounceRef = useRef(null);

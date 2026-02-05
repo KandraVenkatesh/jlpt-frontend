@@ -3,7 +3,8 @@ import { useParams, Link } from "react-router-dom";
 
 export default function GrammarList() {
   const { levelCode } = useParams();
-  const API = "http://localhost:5000/api";
+  const API = import.meta.env.VITE_API_URL;
+
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);

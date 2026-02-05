@@ -17,7 +17,8 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [showAll, setShowAll] = useState(false);
 
-  const API = 'http://localhost:5000/api';
+  const API = import.meta.env.VITE_API_URL;
+
   const MAX_INITIAL = 0;
 
   const debounceRef = useRef(null);

@@ -12,7 +12,8 @@ export default function VocabList(){
   const [limit, setLimit] = useState(25);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
-  const API = 'http://localhost:5000/api';
+  const API = import.meta.env.VITE_API_URL;
+
 
   // favorites state (keeps local copy to trigger re-renders)
   const [favorites, setFavorites] = useState(() => getFavorites('vocab'));

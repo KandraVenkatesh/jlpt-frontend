@@ -4,7 +4,8 @@ import { getFavorites, toggleFavorite } from "../utils/favorites";
 
 export default function KanjiList() {
   const { levelCode } = useParams();
-  const API = "http://localhost:5000/api";
+  const API = import.meta.env.VITE_API_URL;
+
 
   const [kanji, setKanji] = useState([]);
   const [favorites, setFavorites] = useState(() => getFavorites("kanji"));

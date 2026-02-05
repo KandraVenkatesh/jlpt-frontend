@@ -5,7 +5,8 @@ export default function VocabDetail(){
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
-  const API = 'http://localhost:5000/api';
+  const API = import.meta.env.VITE_API_URL;
+
 
   useEffect(()=>{
     async function load(){
