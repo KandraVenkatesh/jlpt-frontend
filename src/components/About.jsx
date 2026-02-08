@@ -73,10 +73,10 @@ export default function About() {
           </div>
         </div>
 
-        <p className="about-author">Created by Kandra Venkatesh</p>
+        <p className="about-author">Developed by Kandra Venkatesh</p>
         <div className="about-social">
           <a href="https://github.com/KandraVenkatesh" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://linkedin.com/in/kandra-venkatesh-702250184" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="www.linkedin.com/in/kandra-venkatesh-5180b5288" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
       </section>
     </>
